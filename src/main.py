@@ -1,22 +1,19 @@
-import sys
 import pygame
-import game
+import game, display, playtime
 
 from constants import FPS
 
 def main():
     pygame.init()
-    window = game.Initialise_Window()
+    window = display.Initialise_Window()
     
     # Initialization
-    grid = game.Grid(window)
+    grid = display.Grid(window)
     snake = game.Snake(grid)
     
-    # Create a clock for the time managment of the program
-    clock = pygame.time.Clock()
-    font = pygame.font.SysFont("Arial", 50)
-    start_time = pygame.time.get_ticks()
-
+    # Create a clock for the time of play measurement
+    Clock_time = playtime.TimePlay()
+    
     running = True
     while running:
         for event in pygame.event.get():
@@ -25,23 +22,23 @@ def main():
             """
             Event Managment
             """
-        current_time = pygame.time.get_ticks()
-        total_time = (current_time - start_time) // 1000 # In second
+
 
         window.fill((0, 0, 0)) # Remove the previous assets
         """
         Assets displaying managment
         """
-        grid.display_grid()
+        grid.display_grid_border()
         grid.display_snake(snake)
-        window.blit(font.render(str(total_time), True, (255, 255, 255)), (50, 50))
+        
+        Clock_time.display_TOP(window)
         """
         End of displaying
         """
 
         pygame.display.update()
-
-        clock.tick(FPS) # Game run at max FPS frames per second
+        Clock_time.update()
+        
 
 
 
