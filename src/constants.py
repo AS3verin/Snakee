@@ -6,6 +6,8 @@ DISPLAY_CAPTION = "Snakee"
 p = pathlib.Path("./assets/Snakee_icon.png")
 DISPLAY_ICON_PATH = p
 
+FPS = 60
+
 # grid
 GRID_SIZE = 600
 GRID_POS = (WIDTH//2-GRID_SIZE//2,HEIGHT//2-GRID_SIZE//2)
