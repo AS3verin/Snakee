@@ -1,0 +1,15 @@
+import pathlib
+
+# window settings
+DISPLAY_SIZE = WIDTH, HEIGHT = 1280, 720
+DISPLAY_CAPTION = "Snakee"
+p = pathlib.Path("./assets/Snakee_icon.png")
+DISPLAY_ICON_PATH = p
+
+# grid
+GRID_SIZE = 600
+GRID_POS = (WIDTH//2-GRID_SIZE//2,HEIGHT//2-GRID_SIZE//2)
+GRID_COLOR = (0,0,0)
+GRID_BORDER_COLOR = (255,255,255)
+GRID_BORDER_RADIUS = 2
+GRID_BORDER_THICKNESS = 2
