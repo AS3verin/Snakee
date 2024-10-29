@@ -13,12 +13,13 @@ GRID_COLOR = (0,0,0) # rgb
 GRID_BORDER_COLOR = (255,255,255) # rgb
 GRID_BORDER_RADIUS = 2 # px
 GRID_BORDER_THICKNESS = 2 # px
+FPS = 60
 # array
 ARR_GRID_RES = 10 # px
-
 
 ### snake
 # display
 SNAKE_HEAD_COLOUR = (0,255,0)
 SNAKE_BODY_COLOUR = (222,208,16)
 # initialisation
+

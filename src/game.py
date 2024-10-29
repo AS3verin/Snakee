@@ -51,3 +51,4 @@ class Snake:
         self.pos = [(grid.arr_grid_size//2,grid.arr_grid_size//2)]
         self.snake_len = len(self.pos)
 
+
