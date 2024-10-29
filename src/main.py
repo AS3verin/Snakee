@@ -5,14 +5,14 @@ from constants import FPS
 
 def main():
     pygame.init()
-    window = game.Initialise_Window()
+    window = display.Initialise_Window()
     
     # Initialization
-    grid = game.Grid(window)
+    grid = display.Grid(window)
     snake = game.Snake(grid)
     
     # Create a clock for the time of play measurement
-    Clock_time = game.TimePlay()
+    Clock_time = playtime.TimePlay()
     
     running = True
     while running:
