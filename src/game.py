@@ -174,14 +174,15 @@ class TimePlay:
         elif format == "m":
             time_to_display = self.Get_TOP_Minutes()
         else:
-            time_to_display = self.Get_TOP_Secondes()
+            time_to_display = str(self.Get_TOP_Secondes())
 
         font = pygame.font.SysFont(constants.CLOCK_FONT,
                                    constants.CLOCK_FONT_SIZE)
+        time_render = font.render(time_to_display, True, 
+                                             constants.CLOCK_FONT_COLOR)
+        time_rect = time_render.get_rect(center=constants.CLOCK_FONT_POS)
         
-        window.blit(font.render(str(time_to_display), True, 
-                                constants.CLOCK_FONT_COLOR),
-                                constants.CLOCK_FONT_POS)
+        window.blit(time_render, time_rect.topleft)
 
     def update(self):
         """ Update the TOP and the number of FPS of the clock
