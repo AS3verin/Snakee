@@ -15,7 +15,6 @@ class Grid:
     def __init__(self,window):
         # display
         self.window = window
-        self.display_grid()
 
         # initialisation
         self.arr_grid_res = constants.ARR_GRID_RES
