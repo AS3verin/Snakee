@@ -8,7 +8,10 @@ def main():
     pygame.init()
     window = game.Initialise_Window()
     
-
+    # Initialization
+    grid = game.Grid(window)
+    snake = game.Snake(grid)
+    
     # Create a clock for the time managment of the program
     clock = pygame.time.Clock()
     font = pygame.font.SysFont("Arial", 50)
@@ -29,11 +32,12 @@ def main():
         """
         Assets displaying managment
         """
-        game.Create_Grid(window)
+        grid.display_snake(snake)
         window.blit(font.render(str(total_time), True, (255, 255, 255)), (50, 50))
         """
         End of displaying
         """
+
         pygame.display.update()
 
         clock.tick(FPS) # Game run at max FPS frames per second

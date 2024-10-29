@@ -1,17 +1,25 @@
 import pathlib
 
-# window settings
+### window settings
 DISPLAY_SIZE = WIDTH, HEIGHT = 1280, 720
 DISPLAY_CAPTION = "Snakee"
-p = pathlib.Path("./assets/Snakee_icon.png")
-DISPLAY_ICON_PATH = p
+DISPLAY_ICON_PATH = pathlib.Path("./assets/Snakee_icon.png")
 
+### grid
+# display
+GRID_SIZE = 600 # px
+GRID_POS = (WIDTH//2-GRID_SIZE//2,HEIGHT//2-GRID_SIZE//2) # position of the top left corner (px, px)
+GRID_COLOR = (0,0,0) # rgb
+GRID_BORDER_COLOR = (255,255,255) # rgb
+GRID_BORDER_RADIUS = 2 # px
+GRID_BORDER_THICKNESS = 2 # px
 FPS = 60
+# array
+ARR_GRID_RES = 10 # px
 
-# grid
-GRID_SIZE = 600
-GRID_POS = (WIDTH//2-GRID_SIZE//2,HEIGHT//2-GRID_SIZE//2)
-GRID_COLOR = (0,0,0)
-GRID_BORDER_COLOR = (255,255,255)
-GRID_BORDER_RADIUS = 2
-GRID_BORDER_THICKNESS = 2
+### snake
+# display
+SNAKE_HEAD_COLOUR = (0,255,0)
+SNAKE_BODY_COLOUR = (222,208,16)
+# initialisation
+
