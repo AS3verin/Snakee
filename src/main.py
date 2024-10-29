@@ -32,7 +32,7 @@ def main():
         """
         Assets displaying managment
         """
-        grid.display_grid()
+        grid.display_grid_border()
         grid.display_snake(snake)
         window.blit(font.render(str(total_time), True, (255, 255, 255)), (50, 50))
         """
