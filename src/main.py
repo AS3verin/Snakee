@@ -1,5 +1,5 @@
 import pygame
-import game
+import game, display, playtime
 
 from constants import FPS
 
