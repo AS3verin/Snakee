@@ -120,3 +120,70 @@ class Snake:
         self.snake_len = len(self.pos)
 
 
+class TimePlay:
+    """ Compute the time played while playing Snakee
+    
+    Attributes:
+        pygame.clock: pygame function to create a clock
+        t0: initial time when the class is created
+        t: current time
+        TOP: Time of play
+    """
+    def __init__(self):
+        """ Initialize the instane of the clock, and the initial time
+        """
+        self.clock = pygame.time.Clock()
+        self.t0 = pygame.time.get_ticks()
+        self.t = pygame.time.get_ticks()
+        self.TOP = 0
+    
+    def set_time(self):
+        """ Set the current time.
+        """
+        self.t = pygame.time.get_ticks()
+
+    def get_TOP(self, format = "s"):
+        """ Get the current time of play (TOP) in ms since the game launch.
+        
+        TOP = current_time - initial time
+        """
+        self.set_time()
+        self.TOP = self.t - self.t0
+        return self.TOP
+    
+    def Get_TOP_Secondes(self):
+        """ Get the time of play in seconds
+        """
+        return TimeConverter(self.TOP).to_seconds()
+    
+    def Get_TOP_Minutes(self):
+        """ Get the time of play in mm:hh
+        """
+        return TimeConverter(self.TOP).to_minutes_seconds()
+
+
+class TimeConverter:
+    """ Convert the time from ms to s, min, or hours.
+
+    Convert the time from a int in ms to string in the format hh:mm:ss
+
+    """
+    def __init__(self, milliseconds):
+        self.milliseconds = milliseconds
+
+    def to_seconds(self):
+        return self.milliseconds / constants.MS_TO_S
+
+    def to_minutes_seconds(self):
+        total_seconds = self.to_seconds()
+        minutes = total_seconds // constants.M_TO_H
+        seconds = total_seconds % constants.S_TO_M
+        return f"{int(minutes)}:{seconds:.2f}"
+
+    def to_hours_minutes_seconds(self):
+        total_seconds = self.to_seconds()
+        hours = total_seconds // constants.S_TO_H
+        minutes = (total_seconds % constants.S_TO_H) // constants.M_TO_H
+        seconds = total_seconds % constants.S_TO_M
+        return f"{int(hours)}:{int(minutes)}:{seconds:.2f}"
+

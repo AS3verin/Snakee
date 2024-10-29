@@ -1,4 +1,3 @@
-import sys
 import pygame
 import game
 
@@ -13,9 +12,8 @@ def main():
     snake = game.Snake(grid)
     
     # Create a clock for the time managment of the program
-    clock = pygame.time.Clock()
+    Clock_time = game.TimePlay()
     font = pygame.font.SysFont("Arial", 50)
-    start_time = pygame.time.get_ticks()
 
     running = True
     while running:
@@ -25,8 +23,8 @@ def main():
             """
             Event Managment
             """
-        current_time = pygame.time.get_ticks()
-        total_time = (current_time - start_time) // 1000 # In second
+        Clock_time.get_TOP()
+        current_TOP = Clock_time.Get_TOP_Minutes()
 
         window.fill((0, 0, 0)) # Remove the previous assets
         """
@@ -34,14 +32,15 @@ def main():
         """
         grid.display_grid_border()
         grid.display_snake(snake)
-        window.blit(font.render(str(total_time), True, (255, 255, 255)), (50, 50))
+        window.blit(font.render(str(current_TOP), True, (255, 255, 255)), (50, 50))
         """
         End of displaying
         """
 
         pygame.display.update()
+        print("\n Boucle +1")
 
-        clock.tick(FPS) # Game run at max FPS frames per second
+        Clock_time.clock.tick(FPS) # Game run at max FPS frames per second
 
 
 
