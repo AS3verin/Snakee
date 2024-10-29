@@ -4,7 +4,9 @@ import game
 def main():
     pygame.init()
     window = game.Initialise_Window()
-    game.Create_Grid(window)
+    grid = game.Grid(window)
+    snake = game.Snake(grid)
+    grid.display_snake(snake)
 
 
     running = True
@@ -13,6 +15,8 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
         
+
+
         pygame.display.update()
 
 
