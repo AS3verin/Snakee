@@ -157,10 +157,37 @@ class TimePlay:
         return TimeConverter(self.TOP).to_seconds()
     
     def Get_TOP_Minutes(self):
-        """ Get the time of play in mm:hh
+        """ Get the time of play in m:s
         """
         return TimeConverter(self.TOP).to_minutes_seconds()
+    
+    def Get_TOP_Hours(self):
+        """ Get the time of play in h:m:s
+        """
+        return TimeConverter(self.TOP).to_hours_minutes_seconds()
 
+    def display_TOP(self, window, format= "m"):
+        """ Display the time of play around the grid
+        """
+        if format == "h":
+            time_to_display = self.Get_TOP_Hours()
+        elif format == "m":
+            time_to_display = self.Get_TOP_Minutes()
+        else:
+            time_to_display = self.Get_TOP_Secondes()
+
+        font = pygame.font.SysFont(constants.CLOCK_FONT,
+                                   constants.CLOCK_FONT_SIZE)
+        
+        window.blit(font.render(str(time_to_display), True, 
+                                constants.CLOCK_FONT_COLOR),
+                                constants.CLOCK_FONT_POS)
+
+    def update(self):
+        """ Update the TOP and the number of FPS of the clock
+        """
+        self.clock.tick(constants.FPS) # Game run at max FPS frames per second
+        _ = self.get_TOP()
 
 class TimeConverter:
     """ Convert the time from ms to s, min, or hours.

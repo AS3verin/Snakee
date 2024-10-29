@@ -24,8 +24,16 @@ SNAKE_BODY_COLOUR = (222,208,16)
 # initialisation
 
 ### Clock
+# Display
 FPS = 60
+# Convert
 MS_TO_S = 1000
 S_TO_M = 60
 M_TO_H = 60
 S_TO_H = 3600
+# Font
+CLOCK_FONT = "Arial"
+CLOCK_FONT_SIZE = 40
+CLOCK_FONT_COLOR = (255, 255, 255)
+CLOCK_FONT_POS = [50, 50]
+
