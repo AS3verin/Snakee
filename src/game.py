@@ -2,6 +2,11 @@ import pygame, numpy as np
 import constants
 
 def Initialise_Window():
+    """ Initialize the window of play
+
+    Return:
+        window: pygame.Surface where to watch the game    
+    """
     window = pygame.display.set_mode(constants.DISPLAY_SIZE)
     pygame.display.set_caption(constants.DISPLAY_CAPTION)
 
@@ -76,17 +81,36 @@ class Grid:
                          border_radius=constants.GRID_BORDER_RADIUS)
         
     def from_arrel_to_px(self,pos):
+        """ Transform a cell position in a pixel position.
+
+        Args:
+            pos: tuple of int (x, y) representing the position in pixel.
+        """
         pos_in_px = ( constants.GRID_POS[0] + self.arr_grid_res*pos[0] ,
                       constants.GRID_POS[1] + self.arr_grid_res*pos[1])
         return pos_in_px
     
     def display_snake(self,snake):
+        """Display the snake on the grid
+        
+        Args:
+            snake: ...
+        """
         head_pos_in_px = self.from_arrel_to_px(snake.pos[0])
         pygame.draw.rect(self.window,color=snake.colours["head"],
                         rect=[head_pos_in_px[0],head_pos_in_px[1],self.arr_grid_res,self.arr_grid_res])
 
     
 class Snake:
+    """ Description of the snake.
+
+    Exhaustive description
+
+    Attributes:
+        colours:
+        pos:
+        snake_len:
+    """
     def __init__(self,grid):
         # display
         self.colours = {"head":constants.SNAKE_HEAD_COLOUR, "body":constants.SNAKE_BODY_COLOUR}
