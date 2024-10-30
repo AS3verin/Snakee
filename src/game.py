@@ -26,6 +26,10 @@ class Session:
         self.Clock_time.__init__()
         self.__init__(self.grid,self.snake,self.Clock_time)
 
+    def set_tdeath(self):
+        if self.Clock_time.tdeath == 0:
+            self.Clock_time.tdeath = self.Clock_time.TOP
+
 
 class Game:
     def __init__(self):
@@ -79,22 +83,25 @@ class Game:
                     if event.type == USEREVENT:
                         self.snake.update_pos(self.session, self.grid)
 
+            self.render()
 
-            self.window.fill((0, 0, 0)) # Remove the previous assets
-            """
-            Assets displaying managment
-            """
-            self.grid.display_grid_border()
-            self.grid.display_snake(self.snake)
-            if self.session.gameover:
-                if self.session.Clock_time.tdeath==0:
-                    self.session.Clock_time.tdeath = self.session.Clock_time.TOP
-                self.grid.display_deathscreen(self.window)
-            
-            self.session.Clock_time.display_TOP(self.window, self.session)
-            """
-            End of displaying
-            """
 
             pygame.display.update()
             self.session.Clock_time.update()
+
+    def render_playground(self):
+        self.window.fill((0, 0, 0)) # fill the entire screen
+        self.grid.display_grid_border()
+        self.grid.display_snake(self.snake)
+    
+    def render_clock(self):  
+        self.session.Clock_time.display_TOP(self.window, self.session)
+
+
+    def render(self):
+        self.render_playground()                 
+        if self.session.gameover:
+            self.grid.display_deathscreen(self.window)   
+            self.session.set_tdeath()        
+        self.render_clock()
+
