@@ -1,4 +1,4 @@
-import pygame
+import pygame, numpy as np
 import constants
 
 def Initialise_Window():
@@ -17,7 +17,7 @@ def Initialise_Window():
 
 
 class Grid:
-    """ Class displaying grid of play and all elements inside.
+    """ Class defining the grid of play and displaying it and all its elements.
 
     This class enables the initialization of a square grid where the game 
     take place. This grid is described by a number of cell and the size of
@@ -28,6 +28,8 @@ class Grid:
         window: pygame.Surface where the grid is displayed.
         arr_grid_res: Number of pixel per length of grid cell.
         arr_grid_size: Size of the grid in pixel. 
+        arr_grid: Array for the grid. 
+            0 is an empty cell. 1 corresponds to the snake. 2 is a consumable.
     """
     def __init__(self,window):
         """ Initializes the instance of the grid based on the window.
@@ -37,9 +39,9 @@ class Grid:
         """
         # display attribution
         self.window = window
-        # initialisation of the grid size in pixel
-        self.arr_grid_res = constants.ARR_GRID_RES
-        self.arr_grid_size = constants.GRID_SIZE//self.arr_grid_res
+        # initialisation of the grid
+        self.arr_grid = np.zeros((constants.ARR_GRID_SIZE,
+                                  constants.ARR_GRID_SIZE))
 
     def get_grid_border_rect(self):
         """ Get the description [x0, y0, dx, dy]) of the grid borders.
@@ -86,8 +88,8 @@ class Grid:
         Args:
             pos: tuple of int (x, y) representing the position in pixel.
         """
-        pos_in_px = ( constants.GRID_POS[0] + self.arr_grid_res*pos[0] ,
-                      constants.GRID_POS[1] + self.arr_grid_res*pos[1])
+        pos_in_px = ( constants.GRID_POS[0] + constants.ARR_GRID_RES*pos[0] ,
+                      constants.GRID_POS[1] + constants.ARR_GRID_RES*pos[1])
         return pos_in_px
     
     def display_snake(self,snake):
@@ -98,4 +100,5 @@ class Grid:
         """
         head_pos_in_px = self.from_arrel_to_px(snake.pos[0])
         pygame.draw.rect(self.window,color=snake.colours["head"],
-                        rect=[head_pos_in_px[0],head_pos_in_px[1],self.arr_grid_res,self.arr_grid_res])
+                        rect=[head_pos_in_px[0],head_pos_in_px[1],
+                              constants.ARR_GRID_RES,constants.ARR_GRID_RES])

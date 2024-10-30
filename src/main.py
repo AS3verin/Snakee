@@ -22,6 +22,7 @@ def main():
             """
             Event Managment
             """
+            snake.move(event,grid)
 
 
         window.fill((0, 0, 0)) # Remove the previous assets
@@ -29,6 +30,7 @@ def main():
         Assets displaying managment
         """
         grid.display_grid_border()
+        snake.update_pos(grid)
         grid.display_snake(snake)
         
         Clock_time.display_TOP(window)
