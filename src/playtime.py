@@ -14,8 +14,9 @@ class TimePlay:
         """ Initialize the instane of the clock, and the initial time
         """
         self.clock = pygame.time.Clock()
-        self.t0 = pygame.time.get_ticks()
         self.t = pygame.time.get_ticks()
+        self.t0 = 0
+        self.tdeath = 0
         self.TOP = 0
     
     def set_time(self):
@@ -32,30 +33,36 @@ class TimePlay:
         self.TOP = self.t - self.t0
         return self.TOP
     
-    def Get_TOP_Secondes(self):
+    def Get_Secondes(self, time):
         """ Get the time of play in seconds
         """
-        return TimeConverter(self.TOP).to_seconds()
+        return TimeConverter(time).to_seconds()
     
-    def Get_TOP_Minutes(self):
+    def Get_Minutes(self, time):
         """ Get the time of play in m:s
         """
-        return TimeConverter(self.TOP).to_minutes_seconds()
+        return TimeConverter(time).to_minutes_seconds()
     
-    def Get_TOP_Hours(self):
+    def Get_Hours(self, time):
         """ Get the time of play in h:m:s
         """
-        return TimeConverter(self.TOP).to_hours_minutes_seconds()
+        return TimeConverter(time).to_hours_minutes_seconds()
 
-    def display_TOP(self, window, format= "m"):
+    def display_TOP(self, window, session, format= "m"):
         """ Display the time of play around the grid
         """
-        if format == "h":
-            time_to_display = self.Get_TOP_Hours()
-        elif format == "m":
-            time_to_display = self.Get_TOP_Minutes()
+        if session.gameover:
+            time = self.tdeath
+        elif not session.running:
+            time = 0
         else:
-            time_to_display = str(self.Get_TOP_Secondes())
+            time = self.TOP
+        if format == "h":
+            time_to_display = self.Get_Hours(time)
+        elif format == "m":
+            time_to_display = self.Get_Minutes(time)
+        else:
+            time_to_display = str(self.Get_Secondes(time))
 
         font = pygame.font.SysFont(constants.CLOCK_FONT,
                                    constants.CLOCK_FONT_SIZE)

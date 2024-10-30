@@ -1,4 +1,5 @@
 import pathlib, pygame
+from pygame.locals import *
 
 ### window settings
 DISPLAY_SIZE = WIDTH, HEIGHT = 1280, 720
@@ -20,13 +21,20 @@ ARR_GRID_SIZE = GRID_SIZE//ARR_GRID_RES # px
 ### snake
 # display
 SNAKE_HEAD_COLOUR = (0,255,0)
-SNAKE_BODY_COLOUR = (222,208,16)
+SNAKE_BODY_COLOUR = (222,255,0)
 # movement
-SNAKE_SPEED = 1 # grid cell/t
+START_KEY = K_SPACE
+# death 
+DEATH_FONT = "Courier"
+DEATH_FONT_SIZE = 100
+DEATH_FONT_COLOUR = (255,0,0)
+DEATH_FONT_POS = (WIDTH//2, HEIGHT//2)
+DEATH_MESSAGE = "YOU DIED!"
+RESTART_KEY = K_SPACE
 
 ### Clock
 # Display
-FPS = 10
+FPS = 60
 # Convert
 MS_TO_S = 1000
 S_TO_M = 60
@@ -37,7 +45,5 @@ CLOCK_FONT = "Courier"
 CLOCK_FONT_SIZE = 40
 CLOCK_FONT_COLOR = (255, 255, 255)
 CLOCK_FONT_POS = (WIDTH//2, 25)
-
-### Movements
-INITIALISE_MOV = pygame.K_SPACE
-ACCEPTABLE_MOV_KEYS = [pygame.K_UP, pygame.K_DOWN,pygame.K_LEFT,pygame.K_RIGHT]
+# Game clock
+TIME_TO_PLAY = 50 # ms

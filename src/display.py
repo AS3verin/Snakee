@@ -100,5 +100,23 @@ class Grid:
         """
         head_pos_in_px = self.from_arrel_to_px(snake.pos[0])
         pygame.draw.rect(self.window,color=snake.colours["head"],
-                        rect=[head_pos_in_px[0],head_pos_in_px[1],
-                              constants.ARR_GRID_RES,constants.ARR_GRID_RES])
+                         rect=[head_pos_in_px[0],head_pos_in_px[1],
+                               constants.ARR_GRID_RES,constants.ARR_GRID_RES])
+    
+        for k in range(1,snake.len):
+            body_part_pos = self.from_arrel_to_px(snake.pos[k])
+            pygame.draw.rect(self.window,color=snake.colours["body"],
+                             rect=[body_part_pos[0],body_part_pos[1],
+                                   constants.ARR_GRID_RES,constants.ARR_GRID_RES])
+        
+    def display_deathscreen(self,window):
+        # Re-initialise the grid
+        self.display_grid_border()
+        # Display the death statement
+        font = pygame.font.SysFont(constants.DEATH_FONT,
+                                   constants.DEATH_FONT_SIZE)
+        message_render = font.render(constants.DEATH_MESSAGE, True,
+                                     constants.DEATH_FONT_COLOUR)
+        message_rect = message_render.get_rect(center=constants.DEATH_FONT_POS)
+        
+        window.blit(message_render, message_rect.topleft)
