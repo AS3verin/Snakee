@@ -30,7 +30,6 @@ def main():
             Event Managment
             """
             if session.gameover and keys[RESTART_KEY]:
-                #pygame.time.delay(1000)
                 session.restart(window)
             else:
                 if not session.running and keys[START_KEY]:
