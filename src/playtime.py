@@ -6,13 +6,13 @@ class TimePlay:
     
     Attributes:
         pygame.clock: pygame function to create a clock
-        t0: initial time when the class is created
+        t0: initial time when the a run is launched
         t: current time
         TOP: Time of play
+        tdeath: time for the death
     """
     def __init__(self):
-        """ Initialize the instane of the clock, and the initial time
-        """
+        """ Initialize the instane of the clock, and the initial time. """
         self.clock = pygame.time.Clock()
         self.t = pygame.time.get_ticks()
         self.t0 = 0
@@ -33,12 +33,11 @@ class TimePlay:
         return self.TOP
     
     def Get_Time_To_Display(self, time):
-        """ Get the time of play in the format hh:mm:ss.msms """
+        """ Get the time of play in the format hh:mm:ss.msms . """
         return TimeConverter(time).to_str_timer()
     
     def display_TOP(self, window, session):
-        """ Display the time of play around the grid
-        """
+        """ Display the time of play around the grid. """
         if session.gameover:
             time = self.tdeath
         elif not session.running:
@@ -57,17 +56,12 @@ class TimePlay:
         window.blit(time_render, time_rect.topleft)
 
     def update(self):
-        """ Update the TOP and the number of FPS of the clock
-        """
+        """ Update the TOP and the number of FPS of the clock. """
         self.clock.tick(constants.FPS) # Game run at max FPS frames per second
         _ = self.get_TOP()
 
 class TimeConverter:
-    """ Convert the time from ms to s, min, or hours.
-
-    Convert the time from a int in ms to string in the format hh:mm:ss
-
-    """
+    """ Convert the time from ms (int) to string in the format hh:mm:ss.ss. """
     def __init__(self, milliseconds):
         self.milliseconds = milliseconds
 
