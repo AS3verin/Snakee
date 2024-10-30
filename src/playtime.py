@@ -18,7 +18,14 @@ class TimePlay:
         self.t0 = 0
         self.tdeath = 0
         self.TOP = 0
+        self.time_display = 0
     
+    def reset(self):
+        self.t0 = self.t
+        self.tdeath = 0
+        self.TOP = 0
+        self.time_display = 0
+
     def set_time(self):
         """ Set the current time.   """
         self.t = pygame.time.get_ticks()
@@ -32,20 +39,16 @@ class TimePlay:
         self.TOP = self.t - self.t0
         return self.TOP
     
-    def Get_Time_To_Display(self, time):
+    def Convert_Time_To_Display(self, time):
         """ Get the time of play in the format hh:mm:ss.msms . """
         return TimeConverter(time).to_str_timer()
-    
-    def display_TOP(self, window, session):
-        """ Display the time of play around the grid. """
-        if session.gameover:
-            time = self.tdeath
-        elif not session.running:
-            time = 0
-        else:
-            time = self.TOP
-        
-        time_to_display = self.Get_Time_To_Display(time)
+
+    def set_time_display(self, time):
+        self.time_display = time
+
+    def display_TOP(self, window):
+        """ Display the time of play around the grid. """      
+        time_to_display = self.Convert_Time_To_Display(self.time_display)
 
         font = pygame.font.SysFont(constants.CLOCK_FONT,
                                    constants.CLOCK_FONT_SIZE)
@@ -55,10 +58,12 @@ class TimePlay:
         
         window.blit(time_render, time_rect.topleft)
 
-    def update(self):
+    def update(self, gameover):
         """ Update the TOP and the number of FPS of the clock. """
         self.clock.tick(constants.FPS) # Game run at max FPS frames per second
         _ = self.get_TOP()
+        if self.tdeath == 0 and gameover:
+            self.tdeath = self.TOP
 
 class TimeConverter:
     """ Convert the time from ms (int) to string in the format hh:mm:ss.ss. """
