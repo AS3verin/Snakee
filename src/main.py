@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-import game, display, playtime
+import game, display, playtime, items
 
 from constants import TIME_TO_PLAY, START_KEY, RESTART_KEY
 
@@ -10,7 +10,7 @@ def main():
     
     # Initialization
     grid = display.Grid(window)
-    snake = game.Snake(grid)
+    snake = items.Snake(grid)
     
     # Create a clock for the time of play measurement
     Clock_time = playtime.TimePlay()

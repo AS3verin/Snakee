@@ -6,3 +6,4 @@ tests/test_timeplay.py
 src/__pycache__/display.cpython-313.pyc
 src/__pycache__/playtime.cpython-313.pyc
 tests/__pycache__/test_playtime.cpython-313-pytest-8.3.3.pyc
+src/__pycache__/items.cpython-313.pyc
