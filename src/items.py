@@ -2,6 +2,11 @@ import pygame
 from pygame.locals import *
 import constants
 
+class Consumable:
+    def __init__(self, name):
+        self.name = name
+        self.eaten = False
+# init image, manage position (random, not on snake), give point when eaten
 
 class Snake:
     """ Class taking care of the snake.
