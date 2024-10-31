@@ -79,11 +79,28 @@ class Game:
             self.grid.display_deathscreen(self.window)        
         self.render_clock()
 
+### Event ###
+    def moving(self, event):
+        keys = pygame.key.get_pressed()
+        if self.session.running and not self.session.gameover:
+            self.snake.move(keys,self.session)
+        if event.type == USEREVENT:
+            self.snake.update_pos(self.session, self.grid)
+
+
+    def start_session(self, event):
+        if event.type == pygame.KEYDOWN:
+            if not self.session.running and (event.key == pygame.K_SPACE):
+                self.session.start()
+            elif self.session.gameover and (event.key == pygame.K_SPACE):
+                self.session.reset(self.window)
+
 ### Update ###
     def update(self):
         pygame.display.update()
         self.session.Clock_time.update(self.session.gameover)
         self.session.session_time()
+
 
 ### Execute ###
     def execute(self):    
@@ -91,19 +108,11 @@ class Game:
 
         while self.running:
             for event in pygame.event.get():
-                keys = pygame.key.get_pressed()
                 if event.type == pygame.QUIT:
                     self.running = False
 
-                if event.type == pygame.KEYDOWN:
-                    if not self.session.running and (event.key == pygame.K_SPACE):
-                        self.session.start()
-                    elif self.session.gameover and (event.key == pygame.K_SPACE):
-                            self.session.reset(self.window)
-                if self.session.running and not self.session.gameover:
-                        self.snake.move(keys,self.session)
-                if event.type == USEREVENT:
-                    self.snake.update_pos(self.session, self.grid)
+                self.start_session(event)
+                self.moving(event)
 
             self.render()
             self.update()
