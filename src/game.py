@@ -5,10 +5,11 @@ import game, display, playtime, items
 import constants
 
 class Session:
-    def __init__(self, grid, snake):
-        # all classes
-        self.grid = grid
-        self.snake = snake
+    def __init__(self, window):
+        # initialisaiton
+        self.grid = display.Grid(window)
+        self.snake = items.Snake()
+        self.consumable = None #items.Consumable() to do!
         self.Clock_time = playtime.TimePlay()
         # properties
         self.running = False # Running of the session
@@ -18,11 +19,55 @@ class Session:
         self.running = True
         self.Clock_time.reset()
 
-    def reset(self,window):
+    def reset(self):
         self.snake.reset()
         self.running = False
         self.gameover = False
 
+    ### Renders
+    def render_playground(self, window):
+        self.grid.display_grid_border()
+        self.grid.display_snake(self.snake)
+        if self.gameover:
+            self.grid.display_deathscreen(window)  
+    
+    def render_clock(self, window):  
+        self.Clock_time.display_TOP(window)
+
+
+    ### Update snake and consumables
+    def snake_moving(self, keys):
+        delta_x, delta_y = self.snake.delta_x, self.snake.delta_y
+        # initialise movement
+        if self.running and delta_x==0 and delta_y==0:
+            self.snake.initialise_mov()
+        # which movement
+        if delta_x and keys[K_UP]:
+            self.snake.move_up()
+        elif delta_x and keys[K_DOWN]:
+            self.snake.move_down()
+        elif delta_y and keys[K_LEFT]:
+            self.snake.move_left()
+        elif delta_y and keys[K_RIGHT]:
+            self.snake.move_right()
+
+    def update_session(self, event, keys):
+        if not self.running:
+            if (event.type == pygame.KEYDOWN) and (event.key == constants.START_KEY):
+                self.start()
+        else:
+            if self.gameover:
+                if (event.type == pygame.KEYDOWN) and (event.key == constants.RESET_KEY):
+                    self.reset()
+            else:
+                if self.snake.death:
+                    self.gameover = True
+                else:
+                    self.snake_moving(keys)
+                    if event.type == USEREVENT: # controls the speed of the snake
+                        self.snake.update_pos()
+
+    ### Update clock
     def session_time(self):
         if self.gameover:
             self.Clock_time.set_time_display(self.Clock_time.tdeath)
@@ -30,29 +75,26 @@ class Session:
             self.Clock_time.set_time_display(0)
         else:
             self.Clock_time.set_time_display(self.Clock_time.TOP)
+        
+    def update_clock(self):
+        self.Clock_time.update(self.gameover)
+        self.session_time()
+
+
+
 
 
 class Game:
     def __init__(self):
         self.running = True
         self.session = None
-
         self.window = None
 
-        # put in Session
-        self.grid = None
-        self.snake = None #TODO Remove grid at init then init items.snake()
-        self.consumable = None
-
-### Initialize ###
+    ### Initialize ###
     def initialize(self):
         pygame.init()
-        self.window = self.initialise_Window()  
-        self.grid = display.Grid(self.window)
-        self.snake = items.Snake()
-        # Initialisation of the session
-        self.session = game.Session(self.grid, self.snake)
-    
+        self.window = self.initialise_Window()
+        self.session = game.Session(self.window)
         pygame.time.set_timer(USEREVENT,constants.TIME_TO_PLAY)
     
     def initialise_Window(self):
@@ -64,60 +106,24 @@ class Game:
 
         return window
 
-### Render ###
-    def render_playground(self):
-        self.window.fill((0, 0, 0)) # fill the entire screen
-        self.grid.display_grid_border()
-        self.grid.display_snake(self.snake)
-    
-    def render_clock(self):  
-        self.session.Clock_time.display_TOP(self.window)
-
+    ### Render ###
     def render(self):
-        self.render_playground()                 
-        if self.session.gameover:
-            self.grid.display_deathscreen(self.window)        
-        self.render_clock()
+        self.window.fill((0, 0, 0)) # fill the entire screen
+        self.session.render_playground(self.window)      
+        self.session.render_clock(self.window)
 
-### Event ###
-    def snake_moving(self, keys):
-        if self.session.running and self.snake.delta_x==0 and self.snake.delta_y==0:
-            self.snake.initialise_mov()
-
-        if self.snake.delta_x and keys[K_UP]:
-            self.snake.move_up()
-        elif self.snake.delta_x and keys[K_DOWN]:
-            self.snake.move_down()
-        elif self.snake.delta_y and keys[K_LEFT]:
-            self.snake.move_left()
-        elif self.snake.delta_y and keys[K_RIGHT]:
-            self.snake.move_right()
-
+    ### Event ###
     def update_frame(self, event):
         keys = pygame.key.get_pressed()
-        if not self.session.running:
-            if (event.type == pygame.KEYDOWN) and (event.key == constants.START_KEY):
-                self.session.start()
-        else:
-            if self.session.gameover:
-                if (event.type == pygame.KEYDOWN) and (event.key == constants.RESET_KEY):
-                    self.session.reset(self.window)
-            else:
-                if self.snake.death:
-                    self.session.gameover = True
-                else:
-                    self.snake_moving(keys)
-                    if event.type == USEREVENT: # controls the speed of the snake
-                        self.snake.update_pos()
+        self.session.update_session(event,keys)
 
-### Update ###
+    ### Update ###
     def update(self):
         pygame.display.update()
-        self.session.Clock_time.update(self.session.gameover)
-        self.session.session_time()
+        self.session.update_clock()
 
 
-### Execute ###
+    ### Execute ###
     def execute(self):    
         self.initialize()
 
