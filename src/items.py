@@ -2,12 +2,6 @@ import pygame
 from pygame.locals import *
 import constants
 
-class Consumable:
-    def __init__(self, name):
-        self.name = name
-        self.eaten = False
-# init image, manage position (random, not on snake), give point when eaten
-
 class Snake:
     """ Class taking care of the snake.
 
@@ -21,7 +15,7 @@ class Snake:
         head_pos: tuple of the position of the head of the body
     """
     def __init__(self):
-        """ Initializes the instance of the snake within the grid.
+        """ Initializes the instance of the snake.
         """
         # display
         self.colours = {"head":constants.SNAKE_HEAD_COLOUR, 
@@ -39,7 +33,7 @@ class Snake:
         self.len = len(self.pos)
         self.death = False
 
-
+    ### Movement test ###
     def initialise_mov(self):
         self.delta_x = 1
 
@@ -55,16 +49,14 @@ class Snake:
     def move_right(self):
         self.delta_x, self.delta_y = 1, 0
 
-
-
+    ### Update position ###
     def border_collision(self,head_pos):
         h_collision = head_pos[0]<0 or head_pos[0]>constants.GRID_NCELL-1
         v_collision = head_pos[1]<0 or head_pos[1]>constants.GRID_NCELL-1
         return h_collision or v_collision
 
     def update_pos(self):
-        """ Updates the attribute of the position of the snake,
-        and how he moves in the grid.
+        """ Updates the position of the snake.
         """
         current_pos = self.pos.copy()
         current_head_pos = current_pos[0]
@@ -73,7 +65,13 @@ class Snake:
         if self.border_collision(new_head_pos):
             self.death = True
         else:
-            # update the snake position
             self.pos.insert(0,new_head_pos)
             self.pos.pop()
             
+
+
+class Consumable:
+    def __init__(self, name):
+        self.name = name
+        self.eaten = False
+# init image, manage position (random, not on snake), give point when eaten

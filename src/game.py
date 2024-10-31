@@ -6,8 +6,8 @@ import constants
 
 class Session:
     def __init__(self, window):
-        # initialisaiton
-        self.grid = display.Grid(window)
+        # initialisation
+        self.display_session = display.display_session(window)
         self.snake = items.Snake()
         self.consumable = None #items.Consumable() to do!
         self.Clock_time = playtime.TimePlay()
@@ -24,18 +24,18 @@ class Session:
         self.running = False
         self.gameover = False
 
-    ### Renders
+    ### Renders ###
     def render_playground(self, window):
-        self.grid.display_grid_border()
-        self.grid.display_snake(self.snake)
+        self.display_session.display_grid_border()
+        self.display_session.display_snake(self.snake)
         if self.gameover:
-            self.grid.display_deathscreen(window)  
+            self.display_session.display_deathscreen(window)  
     
     def render_clock(self, window):  
         self.Clock_time.display_TOP(window)
 
 
-    ### Update snake and consumables
+    ### Update snake and consumables ###
     def snake_moving(self, keys):
         delta_x, delta_y = self.snake.delta_x, self.snake.delta_y
         # initialise movement
@@ -67,7 +67,7 @@ class Session:
                     if event.type == USEREVENT: # controls the speed of the snake
                         self.snake.update_pos()
 
-    ### Update clock
+    ### Update clock ###
     def session_time(self):
         if self.gameover:
             self.Clock_time.set_time_display(self.Clock_time.tdeath)
@@ -79,8 +79,6 @@ class Session:
     def update_clock(self):
         self.Clock_time.update(self.gameover)
         self.session_time()
-
-
 
 
 
