@@ -90,9 +90,9 @@ class Game:
 
     def start_session(self, event):
         if event.type == pygame.KEYDOWN:
-            if not self.session.running and (event.key == pygame.K_SPACE):
+            if not self.session.running and (event.key == constants.START_KEY):
                 self.session.start()
-            elif self.session.gameover and (event.key == pygame.K_SPACE):
+            elif self.session.gameover and (event.key == constants.RESET_KEY):
                 self.session.reset(self.window)
 
 ### Update ###
