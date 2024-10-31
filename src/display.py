@@ -1,21 +1,6 @@
 import pygame, numpy as np
 import constants
 
-def Initialise_Window():
-    """ Initialize the window of play
-
-    Return:
-        window: pygame.Surface where to watch the game    
-    """
-    window = pygame.display.set_mode(constants.DISPLAY_SIZE)
-    pygame.display.set_caption(constants.DISPLAY_CAPTION)
-
-    display_icon = pygame.image.load(constants.DISPLAY_ICON_PATH)
-    pygame.display.set_icon(display_icon)
-
-    return window
-
-
 class Grid:
     """ Class defining the grid of play and displaying it and all its elements.
 
