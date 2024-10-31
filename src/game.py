@@ -117,8 +117,6 @@ class Game:
     def update(self):
         pygame.display.update()
         self.session.update_clock()
-        self.menu_enabled = self.menu.is_enabled()
-
 
     ### Execute ###
     def execute(self):   

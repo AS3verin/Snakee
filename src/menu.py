@@ -12,8 +12,8 @@ def initialize_menu():
     # --------------------------------------------------------------------------
     # Create Play Menu
     # --------------------------------------------------------------------------
-    play_menu = pygame_menu.Menu(height=constants.HEIGHT * 0.7,
-                                    width= constants.WIDTH * 0.75,
+    play_menu = pygame_menu.Menu(height = constants.GRID_NPX,
+                                    width = constants.GRID_NPX,
                                     theme = menu_theme,
                                     title='Play Menu',
                                    )
@@ -30,8 +30,8 @@ def initialize_menu():
     # --------------------------------------------------------------------------
     # Create About Menu
     # --------------------------------------------------------------------------
-    about_menu = pygame_menu.Menu(height=constants.HEIGHT * 0.7,
-                                    width= constants.WIDTH * 0.75,
+    about_menu = pygame_menu.Menu(height = constants.GRID_NPX,
+                                    width = constants.GRID_NPX,
                                     theme = menu_theme,
                                     title='About Menu',
                                    )
@@ -43,8 +43,8 @@ def initialize_menu():
     # --------------------------------------------------------------------------
     # Create Main Menu
     # --------------------------------------------------------------------------
-    main_menu = pygame_menu.Menu(height=constants.HEIGHT * 0.7,
-                                 width= constants.WIDTH * 0.75,
+    main_menu = pygame_menu.Menu(height = constants.GRID_NPX,
+                                 width = constants.GRID_NPX,
                                  theme = menu_theme,
                                  title='Main Menu',
                                 )
@@ -58,7 +58,7 @@ def initialize_menu():
 def initialize_theme():
     """     Modification of the theme common for all menu and submenu  """
     menu_theme = pygame_menu.themes.THEME_GREEN.copy()
-    menu_theme.widget_font_size = 15
+    menu_theme.widget_font_size = 35
     # ...
     return menu_theme
 

@@ -19,7 +19,8 @@ if __name__ == "__main__":
             # Main menu
             if main_menu.is_enabled():
                 main_menu.mainloop(game.window, fps_limit=constants.FPS)
-            
+            else:
+                game.execute()
 
             # Flip surface
             pygame.display.flip()
