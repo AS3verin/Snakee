@@ -16,8 +16,8 @@ def test_timeplay_initialization(timeplay):
     assert timeplay.t >= timeplay.t0
 
 def test_timeplay_get_time_to_display(timeplay):
-    assert timeplay.Get_Time_To_Display(0) == "00.00"
-    assert timeplay.Get_Time_To_Display(64340) == "01:04.34"
+    assert timeplay.Convert_Time_To_Display(0) == "00.00"
+    assert timeplay.Convert_Time_To_Display(64340) == "01:04.34"
 
 
 def test_timeplay_get_top():
