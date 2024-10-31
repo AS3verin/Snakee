@@ -44,7 +44,7 @@ class Game:
         self.snake = None #TODO Remove grid at init then init items.snake()
         self.consumable = None
 
-### Initialiaze ###
+### Initialize ###
     def initialize(self):
         pygame.init()
         self.window = self.initialise_Window()  
@@ -95,15 +95,15 @@ class Game:
                 if event.type == pygame.QUIT:
                     self.running = False
 
-
-                if not self.session.running and keys[constants.START_KEY]:
-                    self.session.start()
-                elif self.session.gameover and keys[constants.RESET_KEY]:
-                        self.session.reset(self.window)
-                else:
-                    self.snake.move(keys,self.session)
-                    if event.type == USEREVENT:
-                        self.snake.update_pos(self.session, self.grid)
+                if event.type == pygame.KEYDOWN:
+                    if not self.session.running and (event.key == pygame.K_SPACE):
+                        self.session.start()
+                    elif self.session.gameover and (event.key == pygame.K_SPACE):
+                            self.session.reset(self.window)
+                if self.session.running and not self.session.gameover:
+                        self.snake.move(keys,self.session)
+                if event.type == USEREVENT:
+                    self.snake.update_pos(self.session, self.grid)
 
             self.render()
             self.update()
