@@ -11,10 +11,6 @@ class Grid:
 
     Attributes:
         window: pygame.Surface where the grid is displayed.
-        arr_grid_res: Number of pixel per length of grid cell.
-        arr_grid_size: Size of the grid in pixel. 
-        arr_grid: Array for the grid. 
-            0 is an empty cell. 1 corresponds to the snake. 2 is a consumable.
     """
     def __init__(self,window):
         """ Initializes the instance of the grid based on the window.
@@ -24,9 +20,6 @@ class Grid:
         """
         # display attribution
         self.window = window
-        # initialisation of the grid
-        self.arr_grid = np.zeros((constants.ARR_GRID_SIZE,
-                                  constants.ARR_GRID_SIZE))
 
     def get_grid_border_rect(self):
         """ Get the description [x0, y0, dx, dy]) of the grid borders.
@@ -39,7 +32,7 @@ class Grid:
         """
         # rect = [x0, y0, dx, dy] with (x0,y0) most upper left right angle
         rect_int = [constants.GRID_POS[0], constants.GRID_POS[1],
-                    constants.GRID_SIZE, constants.GRID_SIZE,]
+                    constants.GRID_NPX, constants.GRID_NPX,]
         # rect_ext offset is 1 border thickness for x0, y0
         # and 2 border thickness for the dx, dy
         ext_offset = [-constants.GRID_BORDER_THICKNESS,
@@ -73,8 +66,8 @@ class Grid:
         Args:
             pos: tuple of int (x, y) representing the position in pixel.
         """
-        pos_in_px = ( constants.GRID_POS[0] + constants.ARR_GRID_RES*pos[0] ,
-                      constants.GRID_POS[1] + constants.ARR_GRID_RES*pos[1])
+        pos_in_px = ( constants.GRID_POS[0] + constants.GRID_RES*pos[0] ,
+                      constants.GRID_POS[1] + constants.GRID_RES*pos[1])
         return pos_in_px
     
     def display_snake(self,snake):
@@ -86,13 +79,13 @@ class Grid:
         head_pos_in_px = self.from_arrel_to_px(snake.pos[0])
         pygame.draw.rect(self.window,color=snake.colours["head"],
                          rect=[head_pos_in_px[0],head_pos_in_px[1],
-                               constants.ARR_GRID_RES,constants.ARR_GRID_RES])
+                               constants.GRID_RES,constants.GRID_RES])
     
         for k in range(1,snake.len):
             body_part_pos = self.from_arrel_to_px(snake.pos[k])
             pygame.draw.rect(self.window,color=snake.colours["body"],
                              rect=[body_part_pos[0],body_part_pos[1],
-                                   constants.ARR_GRID_RES,constants.ARR_GRID_RES])
+                                   constants.GRID_RES,constants.GRID_RES])
         
     def display_deathscreen(self,window):
         # Re-initialise the grid

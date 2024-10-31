@@ -8,15 +8,15 @@ DISPLAY_ICON_PATH = pathlib.Path("./assets/Snakee_icon.png")
 
 ### grid
 # display
-GRID_SIZE = 600 # px
-GRID_POS = (WIDTH//2-GRID_SIZE//2,HEIGHT//2-GRID_SIZE//2) # position of the top left corner (px, px)
+GRID_NPX = 600 # px
+GRID_POS = (WIDTH//2-GRID_NPX//2,HEIGHT//2-GRID_NPX//2) # position of the top left corner (px, px)
 GRID_COLOR = (0,0,0) # rgb
 GRID_BORDER_COLOR = (255,255,255) # rgb
 GRID_BORDER_RADIUS = 2 # px
 GRID_BORDER_THICKNESS = 2 # px
-# array
-ARR_GRID_RES = 10 # px
-ARR_GRID_SIZE = GRID_SIZE//ARR_GRID_RES # px
+# cutting the grid into cells
+GRID_RES = 10 # px
+GRID_NCELL = GRID_NPX//GRID_RES # number of cells
 
 ### snake
 # display
@@ -31,6 +31,13 @@ DEATH_FONT_COLOUR = (255,0,0)
 DEATH_FONT_POS = (WIDTH//2, HEIGHT//2)
 DEATH_MESSAGE = "YOU DIED!"
 RESET_KEY = K_SPACE
+
+### consumable
+# apple
+APPLE_NAME = "Apple"
+APPLE_DISPLAY = {"colour":(255,0,255)}
+APPLE_PROB = 1 # 
+APPLE_DURATION = 10 # time?
 
 ### Clock
 # Display

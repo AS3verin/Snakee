@@ -19,8 +19,7 @@ class Session:
         self.Clock_time.reset()
 
     def reset(self,window):
-        self.grid.__init__(window)
-        self.snake.__init__(self.grid)
+        self.snake.reset()
         self.running = False
         self.gameover = False
 
@@ -39,8 +38,9 @@ class Game:
         self.session = None
 
         self.window = None
-        self.grid = None
 
+        # put in Session
+        self.grid = None
         self.snake = None #TODO Remove grid at init then init items.snake()
         self.consumable = None
 
@@ -49,7 +49,7 @@ class Game:
         pygame.init()
         self.window = self.initialise_Window()  
         self.grid = display.Grid(self.window)
-        self.snake = items.Snake(self.grid)
+        self.snake = items.Snake()
         # Initialisation of the session
         self.session = game.Session(self.grid, self.snake)
     
@@ -80,20 +80,35 @@ class Game:
         self.render_clock()
 
 ### Event ###
-    def moving(self, event):
+    def snake_moving(self, keys):
+        if self.session.running and self.snake.delta_x==0 and self.snake.delta_y==0:
+            self.snake.initialise_mov()
+
+        if self.snake.delta_x and keys[K_UP]:
+            self.snake.move_up()
+        elif self.snake.delta_x and keys[K_DOWN]:
+            self.snake.move_down()
+        elif self.snake.delta_y and keys[K_LEFT]:
+            self.snake.move_left()
+        elif self.snake.delta_y and keys[K_RIGHT]:
+            self.snake.move_right()
+
+    def update_frame(self, event):
         keys = pygame.key.get_pressed()
-        if self.session.running and not self.session.gameover:
-            self.snake.move(keys,self.session)
-        if event.type == USEREVENT:
-            self.snake.update_pos(self.session, self.grid)
-
-
-    def start_session(self, event):
-        if event.type == pygame.KEYDOWN:
-            if not self.session.running and (event.key == constants.START_KEY):
+        if not self.session.running:
+            if (event.type == pygame.KEYDOWN) and (event.key == constants.START_KEY):
                 self.session.start()
-            elif self.session.gameover and (event.key == constants.RESET_KEY):
-                self.session.reset(self.window)
+        else:
+            if self.session.gameover:
+                if (event.type == pygame.KEYDOWN) and (event.key == constants.RESET_KEY):
+                    self.session.reset(self.window)
+            else:
+                if self.snake.death:
+                    self.session.gameover = True
+                else:
+                    self.snake_moving(keys)
+                    if event.type == USEREVENT: # controls the speed of the snake
+                        self.snake.update_pos()
 
 ### Update ###
     def update(self):
@@ -111,8 +126,7 @@ class Game:
                 if event.type == pygame.QUIT:
                     self.running = False
 
-                self.start_session(event)
-                self.moving(event)
+                self.update_frame(event)
 
             self.render()
             self.update()

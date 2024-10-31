@@ -20,65 +20,60 @@ class Snake:
              body, the first element being the head
         head_pos: tuple of the position of the head of the body
     """
-    def __init__(self,grid):
+    def __init__(self):
         """ Initializes the instance of the snake within the grid.
-
-        Args:
-            grid: np.array containing the grid
         """
         # display
         self.colours = {"head":constants.SNAKE_HEAD_COLOUR, 
                         "body":constants.SNAKE_BODY_COLOUR}
 
         # initialisation
-        self.pos = [(constants.ARR_GRID_SIZE//2,constants.ARR_GRID_SIZE//2)]
+        self.pos = [(constants.GRID_NCELL//2,constants.GRID_NCELL//2)]
         self.delta_x, self.delta_y = 0, 0
         self.len = len(self.pos)
-        grid.arr_grid[*self.pos[0]] = 1
+        self.death = False
+
+    def reset(self):
+        self.pos = [(constants.GRID_NCELL//2,constants.GRID_NCELL//2)]
+        self.delta_x, self.delta_y = 0, 0
+        self.len = len(self.pos)
+        self.death = False
+
+
+    def initialise_mov(self):
+        self.delta_x = 1
+
+    def move_up(self):
+        self.delta_x, self.delta_y = 0, -1
+    
+    def move_down(self):
+        self.delta_x, self.delta_y = 0, 1
+
+    def move_left(self):
+        self.delta_x, self.delta_y = -1, 0
+    
+    def move_right(self):
+        self.delta_x, self.delta_y = 1, 0
+
+
 
     def border_collision(self,head_pos):
-        h_collision = head_pos[0]<0 or head_pos[0]>constants.ARR_GRID_SIZE-1
-        v_collision = head_pos[1]<0 or head_pos[1]>constants.ARR_GRID_SIZE-1
+        h_collision = head_pos[0]<0 or head_pos[0]>constants.GRID_NCELL-1
+        v_collision = head_pos[1]<0 or head_pos[1]>constants.GRID_NCELL-1
         return h_collision or v_collision
-    
-    def update_pos(self,session,grid):
+
+    def update_pos(self):
         """ Updates the attribute of the position of the snake,
         and how he moves in the grid.
-
-        Args:
-            grid: np.array containing the grid
         """
         current_pos = self.pos.copy()
         current_head_pos = current_pos[0]
         new_head_pos = (current_head_pos[0]+self.delta_x,
                         current_head_pos[1]+self.delta_y)
         if self.border_collision(new_head_pos):
-            session.gameover = True
+            self.death = True
         else:
             # update the snake position
             self.pos.insert(0,new_head_pos)
             self.pos.pop()
-            # update the grid
-            grid.arr_grid[*self.pos[0]] = 1
-            grid.arr_grid[*current_pos[-1]] = 0
-
-    def move(self,keys,session):
-        """ Makes the snake move at a constant speed and depending of the 
-        player inputs.
-
-        Args:
-            keys: list of keys that the player input
-            grid: np.array containing the grid
-        """
-        if session.running and self.delta_x==0 and self.delta_y==0:
-            self.delta_x = 1
-
-        if self.delta_x and keys[K_UP]:
-            self.delta_x, self.delta_y = 0, -1
-        elif self.delta_x and keys[K_DOWN]:
-            self.delta_x, self.delta_y = 0, 1
-        elif self.delta_y and keys[K_LEFT]:
-            self.delta_x, self.delta_y = -1, 0
-        elif self.delta_y and keys[K_RIGHT]:
-            self.delta_x, self.delta_y = 1, 0
             
