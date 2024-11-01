@@ -1,4 +1,4 @@
-import pygame
+import pygame, numpy as np
 from pygame.locals import *
 import game, display, playtime, items
 
@@ -9,18 +9,22 @@ class Session:
         # initialisation
         self.display_session = display.display_session(window)
         self.snake = items.Snake()
-        self.consumable = None #items.Consumable() to do!
+        self.consumable = items.Consumable(self.all_taken_cells())
         self.Clock_time = playtime.TimePlay()
         # properties
+        self.start_key = None
         self.running = False # Running of the session
         self.gameover = False
 
-    def start(self):
+    def start(self,key):
+        self.start_key = key
         self.running = True
         self.Clock_time.reset()
 
     def reset(self):
         self.snake.reset()
+        self.consumable.reset(self.all_taken_cells())
+        self.start_key = None
         self.running = False
         self.gameover = False
 
@@ -28,6 +32,7 @@ class Session:
     def render_playground(self, window):
         self.display_session.display_grid_border()
         self.display_session.display_snake(self.snake)
+        self.display_session.display_consumable(self.consumable)
         if self.gameover:
             self.display_session.display_deathscreen(window)  
     
@@ -40,7 +45,14 @@ class Session:
         delta_x, delta_y = self.snake.delta_x, self.snake.delta_y
         # initialise movement
         if self.running and delta_x==0 and delta_y==0:
-            self.snake.initialise_mov()
+            if self.start_key == K_UP:
+                self.snake.delta_y = -1
+            elif self.start_key == K_DOWN:
+                self.snake.delta_y = 1
+            elif self.start_key == K_LEFT:
+                self.snake.delta_x = -1
+            elif self.start_key == K_RIGHT:
+                self.snake.delta_x = 1
         # which movement
         if delta_x and keys[K_UP]:
             self.snake.move_up()
@@ -51,10 +63,16 @@ class Session:
         elif delta_y and keys[K_RIGHT]:
             self.snake.move_right()
 
+    def is_there_consumable(self, cell):
+        return (np.array(cell)==self.consumable.pos).all()
+
+    def all_taken_cells(self):
+        return self.snake.pos
+
     def update_session(self, event, keys):
         if not self.running:
-            if (event.type == pygame.KEYDOWN) and (event.key == constants.START_KEY):
-                self.start()
+            if (event.type == pygame.KEYDOWN) and (event.key in constants.START_KEY):
+                self.start(event.key)
         else:
             if self.gameover:
                 if (event.type == pygame.KEYDOWN) and (event.key == constants.RESET_KEY):
@@ -63,9 +81,12 @@ class Session:
                 if self.snake.death:
                     self.gameover = True
                 else:
-                    self.snake_moving(keys)
+                    self.snake_moving(keys) #TODO buffer because if going down and inputing right,up, you die!
                     if event.type == USEREVENT: # controls the speed of the snake
                         self.snake.update_pos()
+                        self.consumable.eaten = self.snake.growing(self.is_there_consumable(self.snake.pos[0]), self.snake.pos[-1])
+                        if self.consumable.eaten:
+                            self.consumable.reset(self.all_taken_cells())
 
     ### Update clock ###
     def session_time(self):

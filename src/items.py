@@ -1,4 +1,4 @@
-import pygame
+import pygame, numpy as np
 from pygame.locals import *
 import constants
 
@@ -34,9 +34,6 @@ class Snake:
         self.death = False
 
     ### Movement test ###
-    def initialise_mov(self):
-        self.delta_x = 1
-
     def move_up(self):
         self.delta_x, self.delta_y = 0, -1
     
@@ -54,6 +51,9 @@ class Snake:
         h_collision = head_pos[0]<0 or head_pos[0]>constants.GRID_NCELL-1
         v_collision = head_pos[1]<0 or head_pos[1]>constants.GRID_NCELL-1
         return h_collision or v_collision
+    
+    def snake_collision(self,head_pos):
+        return head_pos in self.pos
 
     def update_pos(self):
         """ Updates the position of the snake.
@@ -62,16 +62,39 @@ class Snake:
         current_head_pos = current_pos[0]
         new_head_pos = (current_head_pos[0]+self.delta_x,
                         current_head_pos[1]+self.delta_y)
-        if self.border_collision(new_head_pos):
+        if self.border_collision(new_head_pos) or self.snake_collision(new_head_pos):
             self.death = True
         else:
             self.pos.insert(0,new_head_pos)
             self.pos.pop()
+
+    ### Growing ###
+    def growing(self,is_there_consumable,new_tail):
+        eat_consumable = False
+        if is_there_consumable:
+            self.pos.insert(-1,new_tail)
+            self.len += 1
+            eat_consumable = True
+        return eat_consumable
+        
             
 
 
 class Consumable:
-    def __init__(self, name):
-        self.name = name
+    def __init__(self, taken_cells):
+        self.name = constants.CONSUMABLE_NAME
+        self.colour = constants.CONSUMABLE_DISPLAY["colour"]
         self.eaten = False
+        self.pos = self.search_empty_cell(taken_cells)
+
+    def reset(self, taken_cells):
+        self.eaten = False
+        self.pos = self.search_empty_cell(taken_cells)
+
+    def search_empty_cell(self,taken_cells):
+        potential_new_pos = tuple(np.random.randint(0,constants.GRID_NCELL-1,2))
+        while potential_new_pos in taken_cells:
+            potential_new_pos = tuple(np.random.randint(0,constants.GRID_NCELL-1,2))
+        return potential_new_pos
+
 # init image, manage position (random, not on snake), give point when eaten
