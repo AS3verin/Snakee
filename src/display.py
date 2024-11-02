@@ -100,3 +100,9 @@ class display_session:
             pygame.draw.rect(self.window,color=snake.colours["body"],
                              rect=[body_part_pos[0],body_part_pos[1],
                                    constants.GRID_RES,constants.GRID_RES])
+            
+    def display_consumable(self,consumable):
+        pos_in_px = self.from_cell_to_px(consumable.pos)
+        pygame.draw.rect(self.window,color=consumable.colour,
+                         rect=[pos_in_px[0],pos_in_px[1],
+                               constants.GRID_RES,constants.GRID_RES])

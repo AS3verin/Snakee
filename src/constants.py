@@ -18,7 +18,7 @@ GRID_BORDER_COLOR = (255,255,255) # rgb
 GRID_BORDER_RADIUS = 2 # px
 GRID_BORDER_THICKNESS = 2 # px
 # cutting the grid into cells
-GRID_RES = 10 # px
+GRID_RES = 30 # px
 GRID_NCELL = GRID_NPX//GRID_RES # number of cells
 
 ### snake
@@ -26,7 +26,7 @@ GRID_NCELL = GRID_NPX//GRID_RES # number of cells
 SNAKE_HEAD_COLOUR = (0,255,0)
 SNAKE_BODY_COLOUR = (222,255,0)
 # movement
-START_KEY = K_SPACE
+START_KEY = [K_UP, K_DOWN, K_LEFT, K_RIGHT]
 # death 
 DEATH_FONT = "Courier"
 DEATH_FONT_SIZE = 100
@@ -36,11 +36,8 @@ DEATH_MESSAGE = "YOU DIED!"
 RESET_KEY = K_SPACE
 
 ### consumable
-# apple
-APPLE_NAME = "Apple"
-APPLE_DISPLAY = {"colour":(255,0,255)}
-APPLE_PROB = 1 # 
-APPLE_DURATION = 10 # time?
+CONSUMABLE_NAME = "Apple"
+CONSUMABLE_DISPLAY = {"colour":(255,0,255)}
 
 ### Clock
 # Display
@@ -56,6 +53,7 @@ CLOCK_FONT_SIZE = 40
 CLOCK_FONT_COLOR = (255, 255, 255)
 CLOCK_FONT_POS = (WIDTH//2, 25)
 # Game clock
+
 TIME_TO_PLAY = 50 # ms
 
 
@@ -66,3 +64,6 @@ ABOUT = [f'Python {sys.version[:4]}',
          f'pygame-menu {pygame_menu.__version__}',
          f'Author: Astruc S., Thelie E.',
          f'Email: skeursi@gmail.com',]
+
+
+
