@@ -1,8 +1,7 @@
 import pygame, numpy as np
 from pygame.locals import *
-import game, display, playtime, items
 
-import constants
+import game, display, playtime, items, constants
 
 class Session:
     def __init__(self, window):
@@ -102,7 +101,6 @@ class Session:
         self.session_time()
 
 
-
 class Game:
     def __init__(self):
         self.running = True
@@ -141,16 +139,13 @@ class Game:
         pygame.display.update()
         self.session.update_clock()
 
-
     ### Execute ###
-    def execute(self):    
-        self.initialize()
-
+    def execute(self):   
         while self.running:
-            for event in pygame.event.get():
+            events = pygame.event.get()
+            for event in events:
                 if event.type == pygame.QUIT:
                     self.running = False
-
                 self.update_frame(event)
 
             self.render()

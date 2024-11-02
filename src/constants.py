@@ -1,5 +1,8 @@
-import pathlib, pygame
+import sys
+import pathlib
 from pygame.locals import *
+import pygame
+import pygame_menu
 
 ### window settings
 DISPLAY_SIZE = WIDTH, HEIGHT = 1280, 720
@@ -50,4 +53,17 @@ CLOCK_FONT_SIZE = 40
 CLOCK_FONT_COLOR = (255, 255, 255)
 CLOCK_FONT_POS = (WIDTH//2, 25)
 # Game clock
-TIME_TO_PLAY = 150 # ms
+
+TIME_TO_PLAY = 50 # ms
+
+
+
+### Menu
+ABOUT = [f'Python {sys.version[:4]}', 
+         f'Pygame {pygame.version.ver}',
+         f'pygame-menu {pygame_menu.__version__}',
+         f'Author: Astruc S., Thelie E.',
+         f'Email: skeursi@gmail.com',]
+
+
+
