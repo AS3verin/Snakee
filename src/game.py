@@ -3,7 +3,7 @@ from pygame.locals import *
 
 import game, display, playtime, items, constants
 
-class Session:
+class Snake:
     def __init__(self, window):
         # initialisation
         self.display_session = display.display_session(window)
@@ -101,6 +101,38 @@ class Session:
         self.session_time()
 
 
+class Other:
+    def __init__(self, window):
+        # initialisation
+        self.window = window
+        self.running = False
+
+    ### Renders ###
+    def render_playground(self, window):
+            self.window.fill((254, 132, 111))
+
+            font_message_principal = pygame.font.SysFont(constants.CLOCK_FONT, constants.DEATH_FONT_SIZE)
+            message_soon = font_message_principal.render('New Game Coming Soon', True, (255, 255, 255))
+            message_rect = message_soon.get_rect(center=constants.DEATH_FONT_POS)
+            window.blit(message_soon, message_rect.topleft)
+
+            font_f = pygame.font.SysFont(constants.CLOCK_FONT, constants.CLOCK_FONT_SIZE)
+            f_esc = font_f.render('Press ESC to get back to the menu', True, (255, 255, 255))
+            f_rect = f_esc.get_rect(center=(constants.WIDTH//2, 90/100*constants.HEIGHT))
+            window.blit(f_esc, f_rect.topleft)
+
+    def render_clock(self, window):  
+        return 0
+    
+    def update_session(self, event, keys):
+        if (event.type == pygame.KEYDOWN) and (event.key == K_ESCAPE):
+            self.running = False
+
+    def update_clock(self):
+        return 0
+
+
+
 class Game:
     def __init__(self):
         self.running = True
@@ -111,9 +143,14 @@ class Game:
     def initialize(self):
         pygame.init()
         self.window = self.initialise_Window()
-        self.session = game.Session(self.window)
         pygame.time.set_timer(USEREVENT,constants.TIME_TO_PLAY)
     
+    def set_session(self, game_name):
+        if game_name == constants.GAMES[0]:
+            self.session = Snake(self.window)
+        else:
+            self.session = Other(self.window)
+
     def initialise_Window(self):
         window = pygame.display.set_mode(constants.DISPLAY_SIZE)
         pygame.display.set_caption(constants.DISPLAY_CAPTION)
@@ -145,7 +182,7 @@ class Game:
             events = pygame.event.get()
             for event in events:
                 if event.type == pygame.QUIT:
-                    self.running = False
+                    exit()
                 self.update_frame(event)
 
             self.render()

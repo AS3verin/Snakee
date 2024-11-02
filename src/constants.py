@@ -54,7 +54,7 @@ CLOCK_FONT_COLOR = (255, 255, 255)
 CLOCK_FONT_POS = (WIDTH//2, 25)
 # Game clock
 
-TIME_TO_PLAY = 50 # ms
+TIME_TO_PLAY = 150 # ms
 
 
 
@@ -65,5 +65,5 @@ ABOUT = [f'Python {sys.version[:4]}',
          f'Author: Astruc S., Thelie E.',
          f'Email: skeursi@gmail.com',]
 
-
+GAMES = ["Snakee", "Other"]
 

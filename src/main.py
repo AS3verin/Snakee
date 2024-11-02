@@ -1,14 +1,13 @@
 import pygame
 import game, menu, constants
 
-if __name__ == "__main__":
-    global main_menu
 
-    game = game.Game()
-    game.initialize()
+def main():
+    game1 = game.Game()
+    game1.initialize()
 
-    
-    main_menu = menu.initialize_menu()
+    menus = menu.Menu()
+    main_menu = menus.menus["1"]
 
     while True:
         events = pygame.event.get()
@@ -18,10 +17,14 @@ if __name__ == "__main__":
 
             # Main menu
             if main_menu.is_enabled():
-                main_menu.mainloop(game.window, fps_limit=constants.FPS)
+                main_menu.mainloop(game1.window, fps_limit=constants.FPS)
             else:
-                game.execute()
+                game1.set_session(menus.game_chosen)
+                game1.execute()
 
             # Flip surface
             pygame.display.flip()
 
+
+if __name__ == "__main__":
+    main()
